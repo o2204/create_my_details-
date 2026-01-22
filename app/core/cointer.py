@@ -5,7 +5,6 @@ from repo.create_my_details_repo import CreateMyDetailsRepo
 from service.create_my_details_service import CreateMyDetailsService
 
 
-
 def get_create_my_details_repo(
         db: AsyncSession = Depends(get_db),
 ) -> CreateMyDetailsRepo:
