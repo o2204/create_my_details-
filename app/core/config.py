@@ -7,6 +7,8 @@ class Settings(BaseSettings):
     SUPABASE_URL: str
     SUPABASE_KEY: str 
 
+    COHERE_API_KEY: str 
+
     class Config:
         env_file = ".env"
 
