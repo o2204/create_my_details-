@@ -1,6 +1,6 @@
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
-from db.session import get_db
+from core.database import get_db
 from repo.create_my_details_repo import CreateMyDetailsRepo
 from service.create_my_details_service import CreateMyDetailsService
 
