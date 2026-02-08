@@ -3,9 +3,9 @@ from pydantic import BaseModel
 class CreateMyRequestSchema(BaseModel):
     name: str 
     age: int
-    add: str 
+    address: str 
 
 class CreateMyResponseSchema(BaseModel):
     name: str 
     age: int 
-    add: str 
+    address: str 
