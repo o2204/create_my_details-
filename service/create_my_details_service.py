@@ -12,10 +12,9 @@ class CreateMyDetailsService:
     ) -> CreateMyResponseSchema:
         
         obj = await self.repo.create(data)
-        await self.repo.commit()
 
-        return CreateMyRequestSchema(
+        return CreateMyResponseSchema(
             name=obj.name,
             age=obj.age,
-            add=obj.add,
+            address=obj.address,
         )

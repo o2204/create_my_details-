@@ -15,11 +15,11 @@ class CreateMyDetailsRepo:
         obj = CreateMyDetailsModel(
             name=data.name,
             age=data.age,
-            add=data.add,
+            address=data.address,
         )
 
         self.db.add(obj)
-        
+        await self.db.commit()
         await self.db.refresh(obj)
 
         return obj 

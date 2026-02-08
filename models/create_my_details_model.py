@@ -16,4 +16,4 @@ class CreateMyDetailsModel(Base):
 
     name = Column(String, nullable=False)
     age = Column(Integer, nullable=False)
-    add = Column(String, nullable=False)
+    address = Column(String, nullable=False)
