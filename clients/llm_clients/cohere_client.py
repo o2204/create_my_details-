@@ -1,4 +1,7 @@
 import cohere
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class CohereClient:
@@ -7,8 +10,11 @@ class CohereClient:
         self.model = model
 
     def ask(self, prompt: str) -> str:
-        response = self.client.chat(
-            model=self.model,
-            message=prompt
-        )
-        return response.text
+        try:
+            response = self.client.chat(
+                model=self.model,
+                message=prompt
+            )
+            return response.text
+        except Exception as e:
+            logger.error(f"Cohere API error: {e}")

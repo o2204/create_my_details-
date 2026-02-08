@@ -1,7 +1,7 @@
 import uuid
 from sqlalchemy import Column, String, Integer
 from sqlalchemy.dialects.postgresql import UUID
-from db.base import Base
+from core.database import Base
 
 
 class CreateMyDetailsModel(Base):
