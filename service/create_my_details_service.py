@@ -1,4 +1,3 @@
-import logging
 from schemas.create_my_details_schemas import CreateMyRequestSchema, CreateMyResponseSchema
 from repo.create_my_details_repo import CreateMyDetailsRepo
 from exceptions.create_my_details_exception import (
@@ -6,8 +5,6 @@ from exceptions.create_my_details_exception import (
     AgeNotFound,
     AddressNotFound,
 )
-
-logger = logging.getLogger(__name__)
 
 
 class CreateMyDetailsService:
@@ -32,5 +29,4 @@ class CreateMyDetailsService:
             )
             
         except Exception as e:
-            logger.error(f"Service error: {e}")
-            
+            raise Exception(f"Error in create_my_details service: {e}")            
