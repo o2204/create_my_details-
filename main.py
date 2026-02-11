@@ -2,8 +2,7 @@ from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from dotenv import load_dotenv
 
-from db.engine import engine
-from db.base import Base
+from core.database import engine, Base
 from routers.chat import router as create_details_router
 from routers.chat import router as chat_router
 
