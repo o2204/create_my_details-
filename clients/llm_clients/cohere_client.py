@@ -1,6 +1,5 @@
 import cohere
 
-
 class CohereClient:
     def __init__(self, api_key: str):
         self.client = cohere.Client(api_key)

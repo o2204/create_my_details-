@@ -3,10 +3,11 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from core.database import get_db
 from repo.create_my_details_repo import CreateMyDetailsRepo
+from repo.message_repo import MessageRepo
 from service.create_my_details_service import CreateMyDetailsService
 from clients.llm_clients.cohere_client import CohereClient
 from service.chat_service import ChatService
-from core.config import get_settings 
+from core.config import Settings, get_settings
 from core.constant_manager import CohereModel
 
 
@@ -24,18 +25,27 @@ def get_create_my_details_service(
     except Exception as e:
         raise Exception(f"Error creating service: {e}")
     
-def get_chat_service() -> ChatService:
+# Fix 1: Remove the duplicate get_chat_service without db parameter
+# Fix 2: Fix get_cohere_client to not use Depends
+def get_cohere_client() -> CohereClient:
     try:
-        return ChatService(cohere_client=get_cohere_client())
-    except Exception as e:
-        raise Exception(f"Error creating chat service: {e}")
-
-def get_cohere_client(settings: get_settings = Depends(get_settings)) -> CohereClient:
-    try:
+        settings = get_settings()  # Call the function directly, not through Depends
         return CohereClient(
             api_key=settings.COHERE_API_KEY,
-            model= CohereModel.COHEREMODEL,
         )
     except Exception as e:
         raise Exception(f"Error creating Cohere client: {e}")  
-        
+
+# Fix 3: Keep this version with db parameter
+def get_chat_service(db: AsyncSession = Depends(get_db)) -> ChatService:
+    try:
+        message_repo = MessageRepo(db)
+        cohere_client = get_cohere_client()  # Now this works without Depends
+
+        return ChatService(
+            cohere_client=cohere_client,
+            message_repo=message_repo,
+            default_model=CohereModel.COHEREMODEL
+        )
+    except Exception as e:
+        raise Exception(f"Error creating chat service: {e}")

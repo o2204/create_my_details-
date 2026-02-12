@@ -1,5 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 import logging
+from uuid import UUID
 
 from models.message_model import MessageModel
 from schemas.message_schema import MessageCreateSchema
@@ -12,8 +13,13 @@ class MessageRepo:
     
     async def create(self, data: MessageCreateSchema) -> MessageModel:
         try:
+            # Ensure conversation_id is a UUID object, not a string
+            conv_id = data.conversation_id
+            if isinstance(conv_id, str):
+                conv_id = UUID(conv_id)
+            
             obj = MessageModel(
-                conversation_id=data.conversation_id,
+                conversation_id=conv_id,  # Pass UUID object directly
                 role=data.role,
                 content=data.content,
                 tokens_used=data.tokens_used,
