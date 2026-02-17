@@ -4,6 +4,9 @@ class CohereClient:
     def __init__(self, api_key: str):
         self.client = cohere.Client(api_key)
 
+        if not self.client:
+            raise ValueError("CoHere is not found")
+
     def ask(self, prompt: str, model: str) -> str:
         try:
             response = self.client.chat(

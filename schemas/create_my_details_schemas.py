@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-class CreateRequestSchema(BaseModel):  #
+class CreateRequestSchema(BaseModel):  
     name: str 
     age: int
     address: str 
