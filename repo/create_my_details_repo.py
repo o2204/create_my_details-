@@ -1,18 +1,16 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 import logging
 
 from models.create_my_details_model import CreateMyDetailsModel
-from schemas.create_my_details_schemas import CreateMyRequestSchema
+from schemas.create_my_details_schemas import CreateRequestSchema
 
 logger = logging.getLogger(__name__)
-
 
 class CreateMyDetailsRepo:
     def __init__(self, db: AsyncSession):
         self.db = db 
     
-    async def create(self, data: CreateMyRequestSchema) -> CreateMyDetailsModel:
+    async def create(self, data: CreateRequestSchema) -> CreateMyDetailsModel:
         try:
             obj = CreateMyDetailsModel(
                 name=data.name,
@@ -28,4 +26,4 @@ class CreateMyDetailsRepo:
         except Exception as e:
             await self.db.rollback()
             logger.error(f"Unexpected error: {e}")
-            
+            raise ValueError(f"Error creating details: {e}")

@@ -2,10 +2,9 @@ from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from dotenv import load_dotenv
 
-from db.engine import engine
-from db.base import Base
-from routers.chat import router as create_details_router
-from routers.chat import router as chat_router
+from core.database import engine, Base
+# from routers. import router as create_details_router
+from routers.chat_router import router as chat_router
 
 
 # load environment variables (.env)
@@ -36,5 +35,5 @@ async def read_root():
 
 
 # include routers
-app.include_router(create_details_router)
+# app.include_router(create_details_router)
 app.include_router(chat_router)

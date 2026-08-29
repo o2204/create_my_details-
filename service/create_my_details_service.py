@@ -1,4 +1,4 @@
-from schemas.create_my_details_schemas import CreateMyRequestSchema, CreateMyResponseSchema
+from schemas.create_my_details_schemas import CreateRequestSchema, CreateResponseSchema
 from repo.create_my_details_repo import CreateMyDetailsRepo
 from exceptions.create_my_details_exception import (
     NameNotFound,
@@ -11,7 +11,7 @@ class CreateMyDetailsService:
     def __init__(self, repo: CreateMyDetailsRepo):
         self.repo = repo 
     
-    async def create_my_details(self, data: CreateMyRequestSchema) -> CreateMyResponseSchema:
+    async def create_my_details(self, data: CreateRequestSchema) -> CreateResponseSchema:
         try:
             if not data.name or not data.name.strip():
                 raise NameNotFound(data.name)
@@ -22,7 +22,7 @@ class CreateMyDetailsService:
             
             obj = await self.repo.create(data)
             
-            return CreateMyResponseSchema(
+            return CreateResponseSchema(
                 name=obj.name,
                 age=obj.age,
                 address=obj.address,

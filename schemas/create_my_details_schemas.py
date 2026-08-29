@@ -1,11 +1,11 @@
 from pydantic import BaseModel
 
-class CreateMyRequestSchema(BaseModel):
+class CreateRequestSchema(BaseModel):  
     name: str 
     age: int
     address: str 
 
-class CreateMyResponseSchema(BaseModel):
+class CreateResponseSchema(BaseModel):
     name: str 
     age: int 
-    address: str 
+    address: str

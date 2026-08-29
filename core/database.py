@@ -5,20 +5,23 @@ from sqlalchemy.ext.asyncio import (
     AsyncSession,
     async_sessionmaker,
 )
+from urllib.parse import unquote
 
-from core.config import get_settings
+from core.config import Settings
 
-settings = get_settings()
+settings = Settings()
 
 class Base(DeclarativeBase):
     pass
 
+# Fix URL-encoded characters in password
+database_url = unquote(settings.DATABASE_URL)
 
 engine: AsyncEngine = create_async_engine(
-    settings.DATABASE_URL,
+    database_url,
     echo=False,  # set True only for debugging
+    pool_pre_ping=True,
 )
-
 
 AsyncSessionLocal = async_sessionmaker(
     bind=engine,
@@ -28,4 +31,7 @@ AsyncSessionLocal = async_sessionmaker(
 
 async def get_db():
     async with AsyncSessionLocal() as session:
-        yield session
+        try:
+            yield session
+        finally:
+            await session.close()
